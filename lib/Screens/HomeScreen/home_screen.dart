@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './board.dart';
+
 class HomeScreen extends StatelessWidget {
 
   @override
@@ -15,7 +17,7 @@ class HomeScreen extends StatelessWidget {
               ),
               Expanded(
                 flex: 4,
-                child: Center(child: Text('Board goes here')),
+                child: Center(child: Board()),
               )
             ],
           ),
