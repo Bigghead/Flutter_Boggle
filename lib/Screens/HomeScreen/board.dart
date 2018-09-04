@@ -47,11 +47,12 @@ class _BoardState extends State<Board> {
 
 
   void addCell( int row, int col, Map char ) {
+    _clickedCells.add([row,col]);
     setState( () {
-        _clickedCells = List.from(_clickedCells)..addAll([ row, col ]);
+        _clickedCells = _clickedCells;
         _currentWord  = '${_currentWord}${char['char']}';
     } );
-    print(_boardArray);
+    // print(_boardArray);
   }
 
 
@@ -64,15 +65,16 @@ class _BoardState extends State<Board> {
             _clickedCells.removeLast();
             _currentWord.substring(0, _currentWord.length);
         } );
+        print(_clickedCells);
         return true;
     } 
     return false;
-    }
+  }
 
 
     cellClick( currentRow, currentCol ) {
         var row = _boardArray[currentRow];
-
+        print({ 'row': currentRow, 'col': currentCol});
 
         var newRow = [];
         row.asMap().forEach( ( i, char ) { 
@@ -81,7 +83,6 @@ class _BoardState extends State<Board> {
                 'isSelected' : canClick( _boardArray, char, currentRow, currentCol, i) 
             });
         } );
-        print(newRow);
 
         // === update state with new clicked square === //
         List<List<dynamic>> newBoard = [];
@@ -95,7 +96,7 @@ class _BoardState extends State<Board> {
         setState(() {
             _boardArray = newBoard;
         } );
-        print(_boardArray);
+        // print(_boardArray);
         
     }
 
@@ -105,10 +106,10 @@ class _BoardState extends State<Board> {
       super.initState();
     }
 
-  Widget _boardRow( List<dynamic> cellItems, int col ) {
+  Widget _boardRow( List<dynamic> cellItems, int row ) {
     List<Widget> rowChildren = [];
-    cellItems.asMap().forEach((index, item) {
-        rowChildren.add(Expanded(child: BoardCell(cell: item, cellClick: () {cellClick(index, col);},)));
+    cellItems.asMap().forEach((col, item) {
+        rowChildren.add(Expanded(child: BoardCell(cell: item, cellClick: () {cellClick(row, col);},)));
     });
     // print(rowChildren);
     return Row(
