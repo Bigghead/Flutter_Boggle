@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import './board_cell.dart';
 
+import '../../Utils/board_helper.dart';
+
 class Board extends StatefulWidget {
 
   @override
@@ -14,13 +16,21 @@ class Board extends StatefulWidget {
 
 class _BoardState extends State<Board> {
 
-  List _boardArray = [1, 2, 3, 4, 5];
+  List _boardArray = buildCharacterGrid();
 
   @override
     void initState() {
       // TODO: implement initState
       super.initState();
     }
+
+  Widget _boardRow( List<dynamic> cellItems ) {
+    return Row(
+      children: cellItems.map((i) {
+        return BoardCell();
+      }).toList(),
+    );
+  }
 
   @override
     Widget build(BuildContext context) {
@@ -30,7 +40,7 @@ class _BoardState extends State<Board> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: _boardArray.map( (f) => BoardCell() ).toList(),
+          children: _boardArray.map( (i) => _boardRow(i) ).toList(),
         ),
       );
     }
