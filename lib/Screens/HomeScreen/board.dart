@@ -36,7 +36,7 @@ class _BoardState extends State<Board> {
            if( !char['isSelected'] && isNeighbor(board, currentRow, currentCol) ) {
                addCell( currentRow, currentCol, char );
                return true;
-           };
+           }
            if( isLastCellClicked( char, currentRow, currentCol ) ) {
                return !char['isSelected'];
            }
@@ -51,6 +51,7 @@ class _BoardState extends State<Board> {
         _clickedCells = List.from(_clickedCells)..addAll([ row, col ]);
         _currentWord  = '${_currentWord}${char['char']}';
     } );
+    print(_boardArray);
   }
 
 
@@ -73,20 +74,28 @@ class _BoardState extends State<Board> {
         var row = _boardArray[currentRow];
 
 
-        var newRow = row.asMap().forEach( ( char, i ) { 
-            return {  
+        var newRow = [];
+        row.asMap().forEach( ( i, char ) { 
+            newRow.add({  
                 'char' : char['char'],
-                'isSelected' : this.canClick( _boardArray, char, currentRow, currentCol, i) 
-            };
+                'isSelected' : canClick( _boardArray, char, currentRow, currentCol, i) 
+            });
         } );
+        print(newRow);
 
         // === update state with new clicked square === //
-        setState(() {
-            _boardArray.asMap().forEach( ( boardRow, i ) {
-                if( i == currentRow ) return newRow;
-                return boardRow;
+        List<List<dynamic>> newBoard = [];
+         _boardArray.asMap().forEach( ( i, boardRow ) {
+                if( i == currentRow ) {
+                  newBoard.add(newRow);
+                } else {
+                  newBoard.add(boardRow);
+                }
             } );
+        setState(() {
+            _boardArray = newBoard;
         } );
+        print(_boardArray);
         
     }
 
@@ -96,25 +105,33 @@ class _BoardState extends State<Board> {
       super.initState();
     }
 
-  Widget _boardRow( List<dynamic> cellItems ) {
+  Widget _boardRow( List<dynamic> cellItems, int col ) {
+    List<Widget> rowChildren = [];
+    cellItems.asMap().forEach((index, item) {
+        rowChildren.add(Expanded(child: BoardCell(cell: item, cellClick: () {cellClick(index, col);},)));
+    });
+    // print(rowChildren);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
-      children: cellItems.asMap().forEach((i) {
-        return Expanded(child: BoardCell(cell: i, cellClick: cellClick));
-      }).toList(),
+      children: rowChildren,
     );
   }
 
   @override
     Widget build(BuildContext context) {
+      List<Widget> boardChildren = [];
+      _boardArray.asMap().forEach( (i, item ) { 
+        boardChildren.add(_boardRow(item, i)); 
+      } );
+      // print(boardChildren);
       // TODO: implement build
       return Container(
         margin: EdgeInsets.symmetric(horizontal: 15.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: _boardArray.map( (i) => _boardRow(i) ).toList(),
+          children: boardChildren,
         ),
       );
     }

@@ -1,7 +1,7 @@
 
 import 'dart:math';
 
-bool isNeighbor( List<List> array, int row, int col ) {
+bool isNeighbor( List<List<dynamic>> array, int row, int col ) {
 
     var neighbors = [];
 
@@ -13,5 +13,5 @@ bool isNeighbor( List<List> array, int row, int col ) {
             }
         }
 
-    return neighbors.any( (cell) => cell.isSelected == true );
+    return neighbors.any( (cell) => cell['isSelected'] == true );
 }
