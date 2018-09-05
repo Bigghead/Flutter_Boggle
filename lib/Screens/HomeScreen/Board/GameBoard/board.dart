@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import './board_cell.dart';
+import '../ScoreBoard/current_word.dart';
 
-import '../../Utils/board_helper.dart';
-import '../../Utils/helpers.dart';
+import '../../../../Utils/board_helper.dart';
+import '../../../../Utils/helpers.dart';
 
 class Board extends StatefulWidget {
 
@@ -132,7 +133,12 @@ class _BoardState extends State<Board> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: boardChildren,
+          children: <Widget>[
+            Column(
+              children: boardChildren,
+            ),
+            CurrentWord(word: _currentWord,)
+          ],
         ),
       );
     }

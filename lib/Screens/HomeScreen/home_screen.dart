@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './board.dart';
+import './Board/GameBoard/board.dart';
 
 class HomeScreen extends StatelessWidget {
 
