@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import './board_cell.dart';
 import '../ScoreBoard/current_word.dart';
+import '../ScoreBoard/word_list.dart';
 
 import '../../../../Utils/board_helper.dart';
 import '../../../../Utils/helpers.dart';
@@ -18,11 +19,11 @@ class Board extends StatefulWidget {
 
 class _BoardState extends State<Board> {
 
-  List   _boardArray   = buildCharacterGrid();
-  String _currentWord  = '';
-  int    _currentScore = 0;
-  List   _clickedCells = [];
-  List   _allWords     = [];
+  List         _boardArray   = buildCharacterGrid();
+  String       _currentWord  = '';
+  int          _currentScore = 0;
+  List<List>   _clickedCells = [];
+  List<String> _allWords     = [];
 
   
   bool canClick( board, dynamic char, int currentRow, int currentCol, int currentIndex ) {
@@ -103,25 +104,18 @@ class _BoardState extends State<Board> {
 
   void _submit( String word ) {
 
+    // === Check if word is real or it's a ghost === //
+
+    // === Check if word has been previously submitted === //
+    
     // === new board with all cells toggled off === //
-    List<List<dynamic>> newBoard = [];
-    _boardArray.asMap().forEach( (index, board) {
-      List<dynamic> currentRow = List.from([]);
-      board.asMap().forEach( (j, cell) {
-        currentRow.add({
-          'char': cell['character'],
-          'isSelected': false
-        });
-        newBoard.add(currentRow);
-      });
-    });
     setState(() {
           _boardArray = buildCharacterGrid();
           _allWords.add(word);
+          _clickedCells = [];
+          _currentWord = '';
         });
-    print(_allWords);
 
-    // === if currentWord has been submitted, reset board without adding score === //
   }
 
 
@@ -163,14 +157,7 @@ class _BoardState extends State<Board> {
                 children: boardChildren,
               ),
               CurrentWord(word: _currentWord,),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: _allWords.length,
-                  itemBuilder: ( BuildContext context, int index ) {
-                    return Text(_allWords[_allWords.length - 1 - index]);
-                  },
-                ),
-              ),
+              WordList(allWords: _allWords,),
               RaisedButton(
                 child: Text('Submit'),
                 onPressed: () => _submit(_currentWord),
