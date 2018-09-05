@@ -31,7 +31,7 @@ final List allDice = [
 
 
 List buildCharacterGrid() {
-    var shuffledBoard = shuffleBoard(allDice);
+    var shuffledBoard = shuffleBoard(List.from(allDice));
     var emptyArr = [ null, null, null, null, null ];
     var boardGrid = [];
 
