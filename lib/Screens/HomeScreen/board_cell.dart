@@ -12,6 +12,13 @@ class BoardCell extends StatelessWidget {
     Widget build(BuildContext context) {
       // TODO: implement build
       return Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.red
+          ),
+          borderRadius: BorderRadius.circular(5.0)
+        ),
+        margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
         height: 50.0,
         child: GestureDetector(
           onTap: () {

@@ -19,30 +19,30 @@ class _BoardState extends State<Board> {
 
   List   _boardArray   = buildCharacterGrid();
   String _currentWord  = '';
-  int    _currentScore = 0;
+  // int    _currentScore = 0;
   List   _clickedCells = [];
-  List   _allWords     = [];
+  // List   _allWords     = [];
 
   
   bool canClick( board, dynamic char, int currentRow, int currentCol, int currentIndex ) {
-       // first click?
-       if( _clickedCells.length == 0 && currentIndex == currentCol ) {
-           addCell( currentRow, currentCol, char );
-           return !char['isSelected'];
-       }
-       // right cell?
-       if( currentIndex == currentCol ) {
-          //  is it currently selected ? Does it have selected neightbors?
-           if( !char['isSelected'] && isNeighbor(board, currentRow, currentCol) ) {
-               addCell( currentRow, currentCol, char );
-               return true;
-           }
-           if( isLastCellClicked( char, currentRow, currentCol ) ) {
-               return !char['isSelected'];
-           }
-       }
-       // cant click, leave as is
-       return char['isSelected'];
+    // first click?
+    if( _clickedCells.length == 0 && currentIndex == currentCol ) {
+        addCell( currentRow, currentCol, char );
+        return !char['isSelected'];
+    }
+    // right cell?
+    if( currentIndex == currentCol ) {
+       //  is it currently selected ? Does it have selected neightbors?
+        if( !char['isSelected'] && isNeighbor(board, currentRow, currentCol) ) {
+            addCell( currentRow, currentCol, char );
+            return true;
+        }
+        if( isLastCellClicked( char, currentRow, currentCol ) ) {
+            return !char['isSelected'];
+        }
+    }
+    // cant click, leave as is
+    return char['isSelected'];
    }
 
 
@@ -50,7 +50,7 @@ class _BoardState extends State<Board> {
     _clickedCells.add([row,col]);
     setState( () {
         _clickedCells = _clickedCells;
-        _currentWord  = '${_currentWord}${char['char']}';
+        _currentWord  = '$_currentWord${char['char']}';
     } );
     // print(_boardArray);
   }
@@ -59,44 +59,44 @@ class _BoardState extends State<Board> {
   bool isLastCellClicked( char, row, col ) {
     if( _clickedCells.length == 0 ) { return true; }
     List lastClicked = _clickedCells[_clickedCells.length -1];
+
     if( row == lastClicked[0] && col == lastClicked[1] ) {
-        
-        setState(() {
-            _clickedCells.removeLast();
-            _currentWord.substring(0, _currentWord.length);
-        } );
-        print(_clickedCells);
-        return true;
+      setState(() {
+          _clickedCells.removeLast();
+          _currentWord.substring(0, _currentWord.length);
+      } );
+      
+      print(_clickedCells);
+      return true;
     } 
+
     return false;
   }
 
 
     cellClick( currentRow, currentCol ) {
-        var row = _boardArray[currentRow];
-        print({ 'row': currentRow, 'col': currentCol});
-
-        var newRow = [];
-        row.asMap().forEach( ( i, char ) { 
-            newRow.add({  
-                'char' : char['char'],
-                'isSelected' : canClick( _boardArray, char, currentRow, currentCol, i) 
-            });
+      var row = _boardArray[currentRow];
+      print({ 'row': currentRow, 'col': currentCol});
+      var newRow = [];
+      row.asMap().forEach( ( i, char ) { 
+          newRow.add({  
+              'char' : char['char'],
+              'isSelected' : canClick( _boardArray, char, currentRow, currentCol, i) 
+          });
+      } );
+      // === update state with new clicked square === //
+      List<List<dynamic>> newBoard = [];
+        _boardArray.asMap().forEach( ( i, boardRow ) {
+          if( i == currentRow ) {
+            newBoard.add(newRow);
+          } else {
+            newBoard.add(boardRow);
+          }
         } );
-
-        // === update state with new clicked square === //
-        List<List<dynamic>> newBoard = [];
-         _boardArray.asMap().forEach( ( i, boardRow ) {
-                if( i == currentRow ) {
-                  newBoard.add(newRow);
-                } else {
-                  newBoard.add(boardRow);
-                }
-            } );
-        setState(() {
-            _boardArray = newBoard;
-        } );
-        // print(_boardArray);
+      setState(() {
+          _boardArray = newBoard;
+      } );
+      // print(_boardArray);
         
     }
 
@@ -128,9 +128,9 @@ class _BoardState extends State<Board> {
       // print(boardChildren);
       // TODO: implement build
       return Container(
-        margin: EdgeInsets.symmetric(horizontal: 15.0),
+        margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: boardChildren,
         ),

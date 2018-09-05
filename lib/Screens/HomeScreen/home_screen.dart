@@ -11,12 +11,12 @@ class HomeScreen extends StatelessWidget {
         body: Center(
           child: Column(
             children: <Widget>[
+              // Expanded(
+              //   flex: 1,
+              //   child: Center(child: Text('Boggle')),
+              // ),
               Expanded(
-                flex: 1,
-                child: Center(child: Text('Boggle')),
-              ),
-              Expanded(
-                flex: 4,
+                // flex: 6,
                 child: Center(child: Board()),
               )
             ],
