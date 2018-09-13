@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-class CurrentWord extends StatelessWidget {
+class CurrentScore extends StatelessWidget {
 
-  final String word;
+  final int score;
 
-  CurrentWord( { @required this.word } );
+  CurrentScore( { @required this.score } );
 
   @override
     Widget build(BuildContext context) {
       // TODO: implement build
-      return Container(
+       return Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Word:'),
-            Text(word)
+            Text('Current Score:'),
+            Text(score.toString())
           ],
         ),
       );

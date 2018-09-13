@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import './board_cell.dart';
 import '../ScoreBoard/current_word.dart';
 import '../ScoreBoard/word_list.dart';
+import '../ScoreBoard/current_score.dart';
 
 import '../../../../Utils/board_helper.dart';
 import '../../../../Utils/helpers.dart';
@@ -156,7 +157,17 @@ class _BoardState extends State<Board> {
               Column(
                 children: boardChildren,
               ),
-              CurrentWord(word: _currentWord,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Expanded(
+                    child: CurrentWord(word: _currentWord,),
+                  ),
+                  Expanded(
+                    child: CurrentScore(score: _currentScore,),
+                  )
+                ],
+              ),
               WordList(allWords: _allWords,),
               RaisedButton(
                 child: Text('Submit'),
