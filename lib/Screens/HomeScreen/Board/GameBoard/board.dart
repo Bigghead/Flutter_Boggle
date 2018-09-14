@@ -114,7 +114,8 @@ class _BoardState extends State<Board> {
           _boardArray = buildCharacterGrid();
           _allWords.add(word);
           _clickedCells = [];
-          _currentWord = '';
+          _currentScore = countScore(_currentWord);
+          _currentWord  = '';
         });
 
   }
